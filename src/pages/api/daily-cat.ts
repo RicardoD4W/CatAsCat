@@ -34,6 +34,7 @@ export async function getCatImageOfTheDay() {
     if ((rows as any[]).length > 0) {
       // Si existe una entrada, devolverla
       connection.release()
+      // @ts-ignore
       return rows[0]
     } else {
       // Si no existe, crear una nueva entrada
@@ -61,6 +62,7 @@ export async function getCatImageOfTheDay() {
 
       const [newRow] = await connection.query(
         'SELECT * FROM daily_cat WHERE id = ?',
+        // @ts-ignore
         [result.insertId]
       )
       connection.release()
