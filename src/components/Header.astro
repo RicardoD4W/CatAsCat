@@ -12,7 +12,16 @@ import { SITE_TITLE } from '@/consts'
         >{SITE_TITLE}</a
       >
     </h2>
-    <div class='internal-links'>
+    <div
+      class='hamburger-menu'
+      id='hamburger-menu'
+    >
+      &#9776; <!-- Icono de menú hamburguesa -->
+    </div>
+    <div
+      class='internal-links'
+      id='internal-links'
+    >
       <HeaderLink href='/'>Inicio</HeaderLink>
       <!-- <HeaderLink href='/blog'>Blog</HeaderLink> -->
       <HeaderLink href='/gallery'>Galería</HeaderLink>
@@ -44,6 +53,7 @@ import { SITE_TITLE } from '@/consts'
     align-items: center;
     justify-content: space-between;
   }
+
   nav a {
     padding: 0.5em 0.5em;
     border-bottom: 4px solid transparent;
@@ -51,6 +61,7 @@ import { SITE_TITLE } from '@/consts'
     transition: opacity 0.2s ease;
     opacity: 1;
   }
+
   nav a.active {
     text-decoration: none;
     border-bottom-color: var(---color-bg-main);
@@ -62,13 +73,46 @@ import { SITE_TITLE } from '@/consts'
   }
 
   .internal-links {
-    display: block;
+    display: flex;
+    gap: 1em;
+  }
+
+  .hamburger-menu {
+    display: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: var(--color-bg-main);
   }
 
   @media (width <= 550px) {
-    /* TODO hamburguer menu*/
     .internal-links {
       display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 3.5em;
+      right: 1em;
+      background-color: var(--color-bg-secondary);
+      padding: 1em;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .hamburger-menu {
+      display: block;
+    }
+
+    .internal-links.open {
+      display: flex;
     }
   }
 </style>
+
+<script>
+  const hamburgerMenu = document.getElementById('hamburger-menu')
+  const internalLinks = document.getElementById('internal-links')
+
+  hamburgerMenu!.addEventListener('click', () => {
+    internalLinks!.classList.toggle('open')
+  })
+</script>
