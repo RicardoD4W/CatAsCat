@@ -8,10 +8,10 @@
   --color-accent-dark: #2c3e50;
   --color-border: #d3d3d3;
 
-  --highlight-color: #2c3e50; /* Azul Marino - Fondo del botón */
-  --button-text-color: #ffffff; /* Blanco Puro - Color del texto del botón */
-  --button-hover-bg-color: #34495e; /* Azul Acero Suave - Fondo del botón al hacer hover */
-  --cta-border-color: #c0b283; /* Dorado Antiguo - Borde del botón */
+  --highlight-color: #2c3e50;
+  --button-text-color: #ffffff;
+  --button-hover-bg-color: #34495e;
+  --cta-border-color: #c0b283;
 
   --font-body: 'Lora', serif;
   --font-heading: 'Dancing Script', cursive;

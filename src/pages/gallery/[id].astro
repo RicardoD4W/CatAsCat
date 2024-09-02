@@ -20,6 +20,10 @@ if (!image) {
 }
 ---
 
+<script>
+  import '@github/relative-time-element'
+</script>
+
 <MainLayout customTitle='Detalles de la Imagen'>
   <article class='container'>
     <section class='module'>
@@ -44,6 +48,7 @@ if (!image) {
             height='1em'
             viewBox='0 0 24 24'
           >
+            <title>Back navigation arrow</title>
             <path
               fill='currentColor'
               d='m4 10l-.707.707L2.586 10l.707-.707zm17 8a1 1 0 1 1-2 0zM8.293 15.707l-5-5l1.414-1.414l5 5zm-5-6.414l5-5l1.414 1.414l-5 5zM4 9h10v2H4zm17 7v2h-2v-2zm-7-7a7 7 0 0 1 7 7h-2a5 5 0 0 0-5-5z'
@@ -57,11 +62,6 @@ if (!image) {
         <span>Fecha de publicación: </span>
       </section>
       <section>
-        <script
-          type='module'
-          src='https://unpkg.com/@github/relative-time-element@latest/dist/bundle.js'
-        ></script>
-
         <relative-time
           datetime={image.publicationDate}
           lang='es-ES'
@@ -137,7 +137,7 @@ if (!image) {
     border: none;
     border-radius: 50%;
     padding: 8px;
-    font-size: 1.5rem; /* Ajuste de tamaño con unidades relativas */
+    font-size: 1.5rem;
     cursor: pointer;
     display: flex;
     align-items: center;

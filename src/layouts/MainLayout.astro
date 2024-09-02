@@ -29,13 +29,9 @@ const { customTitle } = Astro.props
 <style>
   body {
     background-color: var(--color-bg-main);
-    min-height: 100vh; /* Usa 100vh en lugar de 100dvh para compatibilidad con todos los navegadores */
-    margin: 0; /* Elimina márgenes predeterminados del body */
+    min-height: 100vh;
+    margin: 0;
     display: grid;
     grid-template-rows: auto 1fr auto;
-  }
-  html,
-  body {
-    scrollbar-gutter: stable both-edges;
   }
 </style>

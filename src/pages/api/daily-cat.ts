@@ -1,20 +1,9 @@
 import { db } from '@/data/db'
+import type { CatImageResponse, CatQuoteResponse } from '@/types/api'
 
 const CAT_API_URL = 'https://api.thecatapi.com/v1/images/search'
 const CATFACT_API_URL = 'https://catfact.ninja/fact'
 const CAT_API_KEY = import.meta.env.CAT_API_KEY
-
-interface CatImageResponse {
-  id: string
-  url: string
-  width: number
-  height: number
-}
-
-interface CatQuoteResponse {
-  fact: string
-  lenght: number
-}
 
 const getCurrentDate = () => {
   const today = new Date()

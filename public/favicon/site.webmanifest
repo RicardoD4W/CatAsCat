@@ -1,6 +1,7 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "CatAsCat",
+  "short_name": "CAC",
+  "description": "Descubre el mundo encantador de los gatos en CatAsCat. Encuentra fotos adorables e historias inspiradoras, comparte fotos de tu amigo felino ¡Únete a nuestra comunidad de amantes de los gatos y celebra a tu compañero con nosotros!",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -13,7 +14,8 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#2C3E50",
+  "background_color": "#F8F8F0",
+  "display": "standalone",
+  "lan": "es"
 }

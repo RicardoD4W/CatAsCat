@@ -2,9 +2,21 @@
 import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 ---
 
+<script>
+  import { annotate } from 'rough-notation'
+  const e = document.querySelector('#title') as HTMLElement
+  const annotation = annotate(e, { type: 'underline' })
+  annotation.show()
+</script>
+
 <section class='cat'>
   <div class='cat-content'>
-    <h1 class='cat-title'>Bienvenido a {SITE_TITLE}</h1>
+    <h1
+      id='title'
+      class='cat-title'
+    >
+      Bienvenido a {SITE_TITLE}
+    </h1>
     <p class='cat-description'>
       {SITE_DESCRIPTION}
     </p>
@@ -41,6 +53,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
   .cat-content {
     max-width: 800px;
     margin: 0 auto;
+    padding: 10px;
   }
 
   .cat-title {
@@ -50,22 +63,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
     font-size: 3rem;
     margin-bottom: 20px;
     overflow: hidden;
-  }
-
-  .cat-title::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--color-text-primary);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-  }
-
-  .cat-title:hover::after {
-    transform: translateX(0);
   }
 
   .cat-description {
@@ -115,7 +112,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 
   .call-to-cat {
     display: inline-block;
-    background-color: #a8a29e; /* Azul hielo para el fondo del botón */
+    background-color: #616161; /* Azul hielo para el fondo del botón */
     color: var(--color-bg-main); /* Verde oscuro para el texto */
     padding: 0.75em 2em;
     border: 2px solid var(--cta-border-color); /* Dorado para el borde */
