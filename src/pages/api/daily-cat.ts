@@ -1,8 +1,5 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import fetch from 'node-fetch'
+import { db } from '@/data/db'
 
-const CACHE_FILE_PATH = path.join(process.cwd(), '/public/cat-image-cache.json')
 const CAT_API_URL = 'https://api.thecatapi.com/v1/images/search'
 const CATFACT_API_URL = 'https://catfact.ninja/fact'
 const CAT_API_KEY = import.meta.env.CAT_API_KEY
@@ -19,54 +16,59 @@ interface CatQuoteResponse {
   lenght: number
 }
 
-export async function getCatImageOfTheDay(): Promise<{
-  date?: string | undefined
-  url?: string | undefined
-  quote?: string | undefined
-}> {
+const getCurrentDate = () => {
+  const today = new Date()
+  return today.toISOString().split('T')[0]
+}
+
+export async function getCatImageOfTheDay() {
+  const today = getCurrentDate()
+
   try {
-    let cacheData: {
-      date?: string | undefined
-      url?: string | undefined
-      quote?: string | undefined
-    } = {}
-    if (await fs.stat(CACHE_FILE_PATH).catch(() => false)) {
-      cacheData = JSON.parse(await fs.readFile(CACHE_FILE_PATH, 'utf8'))
+    const connection = await db.getConnection()
+    const [rows] = await connection.query(
+      'SELECT * FROM daily_cat WHERE date = ?',
+      [today]
+    )
+
+    if ((rows as any[]).length > 0) {
+      // Si existe una entrada, devolverla
+      connection.release()
+      return rows[0]
+    } else {
+      // Si no existe, crear una nueva entrada
+      const response = await fetch(`${CAT_API_URL}?limit=1`, {
+        headers: {
+          'x-api-key': CAT_API_KEY,
+        },
+      })
+      const response2 = await fetch(`${CATFACT_API_URL}?max_length=120`)
+      if (!response.ok || !response2.ok) {
+        throw new Error('Error al obtener la foto o la frase del gato')
+      }
+
+      const dataImg: CatImageResponse[] =
+        (await response.json()) as CatImageResponse[]
+      const dataQuote = (await response2.json()) as CatQuoteResponse
+
+      const imageUrl = dataImg[0]!.url
+      const quote = dataQuote.fact
+
+      const [result] = await connection.query(
+        'INSERT INTO daily_cat (date, url, quote) VALUES (?, ?, ?)',
+        [today, imageUrl, quote]
+      )
+
+      const [newRow] = await connection.query(
+        'SELECT * FROM daily_cat WHERE id = ?',
+        [result.insertId]
+      )
+      connection.release()
+
+      return newRow
     }
-
-    const today = new Date().toISOString().split('T')[0]
-    if (cacheData.date === today) {
-      return { url: cacheData.url!, quote: cacheData.quote! }
-    }
-
-    const response = await fetch(`${CAT_API_URL}?limit=1`, {
-      headers: {
-        'x-api-key': CAT_API_KEY,
-      },
-    })
-    const response2 = await fetch(`${CATFACT_API_URL}?max_length=120`, {})
-    if (!response.ok || !response2.ok) {
-      throw new Error('Error al obtener la foto o la frase del gato')
-    }
-
-    const dataImg: CatImageResponse[] =
-      (await response.json()) as CatImageResponse[]
-    const dataQuote = (await response2.json()) as CatQuoteResponse
-
-    const imageUrl = dataImg[0]!.url
-    const quote = dataQuote.fact
-
-    cacheData = {
-      date: today,
-      url: imageUrl,
-      quote,
-    }
-    await fs.writeFile(CACHE_FILE_PATH, JSON.stringify(cacheData, null, 2))
-
-    return cacheData
   } catch (error) {
-    console.error(error)
-    throw new Error('No se pudo obtener la imagen del gato del día')
+    return new Response('Somethins wrong', { status: 500 })
   }
 }
 

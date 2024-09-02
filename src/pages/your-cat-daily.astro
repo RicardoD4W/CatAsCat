@@ -12,8 +12,12 @@ import { SITE_URL } from '@/consts'
     const data = await res.json()
     const imageUrl = data.url || ''
     const quote = data.quote || ''
+    const counter = data.id || 0
 
     const catImg = document.getElementById('catImage')
+    const generatedCounter = (document.getElementById(
+      'generated-counter'
+    ).textContent = `Gatitos generados: ${data.id}`)
     catImg.src = imageUrl
 
     document.getElementById('quote').textContent = quote
@@ -35,6 +39,7 @@ import { SITE_URL } from '@/consts'
 <MainLayout customTitle='Tu gato diario'>
   <article>
     <picture>
+      <h4 id='generated-counter'>Gatitos generados: ...</h4>
       <img
         data-uri={SITE_URL}
         transition:animate='slide'
@@ -71,6 +76,15 @@ import { SITE_URL } from '@/consts'
 </MainLayout>
 
 <style>
+  h4#generated-counter {
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+    font-family: var(--font-body);
+    font-weight: normal;
+    font-size: larger;
+  }
+
   article {
     display: flex;
     justify-content: center;
