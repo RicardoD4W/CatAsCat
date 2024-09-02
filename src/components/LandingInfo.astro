@@ -1,0 +1,146 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
+---
+
+<section class='cat'>
+  <div class='cat-content'>
+    <h1 class='cat-title'>Bienvenido a {SITE_TITLE}</h1>
+    <p class='cat-description'>
+      {SITE_DESCRIPTION}
+    </p>
+    <section class='actions'>
+      <a
+        href='/your-cat-daily'
+        class='call-to-action'
+        >Obtén el gatito del día</a
+      >
+      <a
+        href='/contact'
+        class='call-to-cat'
+        >Contáctanos</a
+      >
+    </section>
+  </div>
+</section>
+
+<style>
+  .actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .cat {
+    background-color: var(--color-bg-main);
+    color: var(--color-accent-dark);
+    text-align: center;
+  }
+
+  .cat-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .cat-title {
+    position: relative;
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .cat-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-text-primary);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .cat-title:hover::after {
+    transform: translateX(0);
+  }
+
+  .cat-description {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+    color: var(--text-color);
+  }
+
+  .call-to-action {
+    display: inline-block;
+    background-color: var(
+      --highlight-color
+    ); /* Azul hielo para el fondo del botón */
+    color: var(--button-text-color); /* Verde oscuro para el texto */
+    padding: 0.75em 2em;
+    border: 2px solid var(--cta-border-color); /* Dorado para el borde */
+    border-radius: 8px;
+    font-family: var(--font-body); /* Fuente serif para el texto del botón */
+    font-size: 1.2rem;
+    text-decoration: none;
+    text-align: center;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease,
+      border-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave para darle profundidad */
+  }
+
+  .call-to-action:hover {
+    background-color: var(
+      --button-hover-bg-color
+    ); /* Azul claro para el hover del botón */
+    transform: scale(1.05); /* Ligera ampliación para el efecto hover */
+    border-color: var(
+      --highlight-color
+    ); /* Cambia el borde al color de fondo en hover */
+  }
+
+  .call-to-action:active {
+    background-color: var(
+      --highlight-color
+    ); /* Mantiene el color de fondo en estado activo */
+    transform: scale(1); /* Restaura el tamaño del botón al hacer clic */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Reducción de la sombra para el efecto de presionado */
+  }
+
+  .call-to-cat {
+    display: inline-block;
+    background-color: #a8a29e; /* Azul hielo para el fondo del botón */
+    color: var(--color-bg-main); /* Verde oscuro para el texto */
+    padding: 0.75em 2em;
+    border: 2px solid var(--cta-border-color); /* Dorado para el borde */
+    border-radius: 8px;
+    font-family: var(--font-body); /* Fuente serif para el texto del botón */
+    font-size: 1.2rem;
+    text-decoration: none;
+    text-align: center;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease,
+      border-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave para darle profundidad */
+  }
+
+  .call-to-cat:hover {
+    background-color: var(--color-bg-main);
+    color: #a8a29e;
+    transform: scale(1.05);
+  }
+
+  .call-to-cat:active {
+    background-color: #a8a29e; /* Mantiene el color de fondo en estado activo */
+    color: var(--color-bg-main);
+    transform: scale(1); /* Restaura el tamaño del botón al hacer clic */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Reducción de la sombra para el efecto de presionado */
+  }
+</style>

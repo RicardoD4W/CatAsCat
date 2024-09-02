@@ -1,0 +1,41 @@
+---
+import { ViewTransitions } from 'astro:transitions'
+import BaseHead from '@/components/BaseHead.astro'
+import Header from '@/components/Header.astro'
+import Footer from '@/components/Footer.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts'
+
+import '@/styles/global.css'
+
+const { customTitle } = Astro.props
+---
+
+<!doctype html>
+<html lang='es'>
+  <head>
+    <BaseHead
+      title={customTitle ? SITE_TITLE + `${' - ' + customTitle}` : SITE_TITLE}
+      description={SITE_DESCRIPTION}
+    />
+    <ViewTransitions />
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>
+
+<style>
+  body {
+    background-color: var(--color-bg-main);
+    min-height: 100vh; /* Usa 100vh en lugar de 100dvh para compatibilidad con todos los navegadores */
+    margin: 0; /* Elimina márgenes predeterminados del body */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  html,
+  body {
+    scrollbar-gutter: stable both-edges;
+  }
+</style>

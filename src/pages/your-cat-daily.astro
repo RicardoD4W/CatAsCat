@@ -1,0 +1,167 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { SITE_URL } from '@/consts'
+---
+
+<script type='module' is:inline>
+  try {
+    const res = await fetch('/api/daily-cat')
+    if (!res.ok) {
+      throw new Error('Error al obtener la imagen del gato')
+    }
+    const data = await res.json()
+    const imageUrl = data.url || ''
+    const quote = data.quote || ''
+
+    const catImg = document.getElementById('catImage')
+    catImg.src = imageUrl
+
+    document.getElementById('quote').textContent = quote
+
+    const twitterButton = document.getElementById('twitter')
+    const whatsappButton = document.getElementById('whatsapp')
+
+    const tweetText = `Check out the cat of the day!\n\n#cat #cats #dailycat @CatAsCat\n`
+    const tweetUrl = `https://x.com/intent/post?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(catImg.dataset.uri + '/your-cat-daily')}`
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(tweetText + catImg.dataset.uri + '/your-cat-daily')}`
+
+    twitterButton.href = tweetUrl
+    whatsappButton.href = whatsappUrl
+  } catch (error) {
+    console.error('Error al cargar la imagen del gato:', error)
+  }
+</script>
+
+<MainLayout customTitle='Tu gato diario'>
+  <article>
+    <picture>
+      <img
+        data-uri={SITE_URL}
+        transition:animate='slide'
+        id='catImage'
+        alt='Gato del día'
+      />
+      <q
+        id='quote'
+        transition:animate='slide'
+        >Cargando...</q
+      >
+      <section class='socials'>
+        <a
+          id='twitter'
+          class='shareButton'
+          href='#'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          ¡Compártela en X!</a
+        >
+        <a
+          id='whatsapp'
+          class='shareButton'
+          href='#'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          ¡Compártela en WhatsApp!</a
+        >
+      </section>
+    </picture>
+  </article>
+</MainLayout>
+
+<style>
+  article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #quote {
+    font-family: var(--font-heading);
+    font-size: x-large;
+    text-align: center;
+    overflow-wrap: break-word;
+    width: 700px;
+  }
+
+  #catImage {
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 780px) {
+    #catImage {
+      width: 300px;
+      height: auto;
+    }
+    #quote {
+      width: 500px;
+      font-size: x-large;
+    }
+  }
+
+  @media (max-width: 525px) {
+    #catImage {
+      width: 300px;
+      height: auto;
+    }
+    #quote {
+      font-size: x-large;
+      width: 300px;
+    }
+  }
+
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .shareButton {
+    display: inline-block;
+    background-color: var(
+      --highlight-color
+    ); /* Azul hielo para el fondo del botón */
+    color: var(--button-text-color); /* Verde oscuro para el texto */
+    padding: 0.5em 1em;
+    border: 2px solid var(--cta-border-color); /* Dorado para el borde */
+    border-radius: 8px;
+    font-family: var(--font-body); /* Fuente serif para el texto del botón */
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease,
+      border-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave para darle profundidad */
+  }
+
+  .shareButton:hover {
+    background-color: var(
+      --button-hover-bg-color
+    ); /* Azul claro para el hover del botón */
+    transform: scale(1.05); /* Ligera ampliación para el efecto hover */
+    border-color: var(
+      --highlight-color
+    ); /* Cambia el borde al color de fondo en hover */
+  }
+
+  .shareButton:active {
+    background-color: var(
+      --highlight-color
+    ); /* Mantiene el color de fondo en estado activo */
+    transform: scale(1); /* Restaura el tamaño del botón al hacer clic */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Reducción de la sombra para el efecto de presionado */
+  }
+</style>

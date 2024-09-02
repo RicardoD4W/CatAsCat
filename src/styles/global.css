@@ -1,0 +1,32 @@
+:root {
+  --color-bg-accent: #e0c550;
+  --color-text-primary: #4a4a4a;
+  --color-text-secondary: #e0e0e0;
+  --color-bg-main: #f8f8f0;
+  --color-bg-secondary: #2c3e50;
+  --color-accent-light: #4a8f6d;
+  --color-accent-dark: #2c3e50;
+  --color-border: #d3d3d3;
+
+  --highlight-color: #2c3e50; /* Azul Marino - Fondo del botón */
+  --button-text-color: #ffffff; /* Blanco Puro - Color del texto del botón */
+  --button-hover-bg-color: #34495e; /* Azul Acero Suave - Fondo del botón al hacer hover */
+  --cta-border-color: #c0b283; /* Dorado Antiguo - Borde del botón */
+
+  --font-body: 'Lora', serif;
+  --font-heading: 'Dancing Script', cursive;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/lora/Lora-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dancing Script';
+  src: url('/fonts/dancing/DancingScript-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}

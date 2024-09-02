@@ -1,0 +1,20 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { Content as PrivacyContent } from '@/content/privacy/privacy.md'
+---
+
+<MainLayout customTitle='Política de privacidad'>
+  <article>
+    <PrivacyContent />
+  </article>
+</MainLayout>
+
+<style>
+  article {
+    text-wrap: pretty;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: var(--font-body);
+  }
+</style>

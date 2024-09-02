@@ -1,0 +1,118 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import gallery from '@/data/gallery.json'
+import type { IGallery } from '@/types/gallery.d.ts'
+
+let galleryInfo: IGallery[] = []
+
+if (gallery.length < 5) {
+  const urls = [
+    'https://api.thecatapi.com/v1/images/search?limit=10',
+    'https://api.thecatapi.com/v1/images/search?limit=10',
+    'https://api.thecatapi.com/v1/images/search?limit=10',
+    'https://api.thecatapi.com/v1/images/search?limit=10',
+    'https://api.thecatapi.com/v1/images/search?limit=10',
+  ]
+  const fetchPromises = urls.map(url =>
+    fetch(url).then(response => response.json())
+  )
+  const results = await Promise.all(fetchPromises)
+  galleryInfo = [...results.flat()]
+} else {
+  galleryInfo = [...gallery]
+}
+---
+
+<MainLayout customTitle='Galería'>
+  <article class='info'>
+    <h3 class='contact-info'>
+      Esta galería se compone de las fotos de la comunidad
+    </h3>
+    <p class='contact-info'>
+      Si quieres realizar algún aporte, visita el apartado de <a href='/contact'
+        >Contacto</a
+      >
+    </p>
+  </article>
+  <article class='container'>
+    <section class='masonry-container'>
+      <div class='masonry'>
+        {
+          galleryInfo.map(image => (
+            <figcaption class='brick'>
+              <a
+                href={`/gallery/${image.id}`}
+                class='brick'
+              >
+                <img
+                  transition:name={`cat-img-${image.id}`}
+                  decoding='async'
+                  loading='lazy'
+                  src={image.url}
+                  alt={`Imagen de gatito ${image.id}`}
+                  width='300'
+                  height='200'
+                />
+              </a>
+            </figcaption>
+          ))
+        }
+      </div>
+    </section>
+  </article>
+</MainLayout>
+
+<style>
+  .info {
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-info {
+    padding: 0 20px 0 20px;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  .masonry-container {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  .masonry {
+    column-count: 2;
+    column-gap: 5px;
+    @media (min-width: 768px) {
+      column-count: 3;
+    }
+    @media (min-width: 992px) {
+      column-count: 4;
+    }
+    @media (min-width: 1199px) {
+      column-count: 5;
+    }
+    .brick {
+      box-sizing: border-box;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      counter-increment: brick-counter;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: scale 0.3s ease;
+      scale: 1;
+    }
+    img:hover {
+      scale: 0.8;
+    }
+  }
+</style>

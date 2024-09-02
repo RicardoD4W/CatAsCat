@@ -1,0 +1,33 @@
+{
+  "name": "catascat",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/lit": "^4.3.0",
+    "@astrojs/mdx": "^3.1.5",
+    "@astrojs/rss": "^4.0.7",
+    "@astrojs/sitemap": "3.1.6",
+    "@types/node": "^22.5.1",
+    "@webcomponents/template-shadowroot": "^0.2.1",
+    "astro": "4.15.1",
+    "lit": "^3.2.0",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-astro": "^1.2.3",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1"
+  }
+}
