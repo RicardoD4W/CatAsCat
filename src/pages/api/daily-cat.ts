@@ -57,8 +57,8 @@ export async function getCatImageOfTheDay() {
         [result.insertId]
       )
       connection.release()
-
-      return newRow
+      // @ts-ignore
+      return newRow[0]
     }
   } catch (error) {
     return new Response('Somethins wrong', { status: 500 })

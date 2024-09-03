@@ -10,6 +10,7 @@ import { SITE_URL } from '@/consts'
       throw new Error('Error al obtener la imagen del gato')
     }
     const data = await res.json()
+
     const imageUrl = data.url || ''
     const quote = data.quote || ''
     const counter = data.id || 0
