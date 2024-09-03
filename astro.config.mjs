@@ -11,10 +11,15 @@ import netlify from "@astrojs/netlify";
 
 
 
+import preact from "@astrojs/preact";
+
+
+
+
 // https://astro.build/config
 export default defineConfig({
   output: "hybrid",
   site: "https://catascat.netlify.app/",
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap(), preact()],
   adapter: netlify(),
 });
