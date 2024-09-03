@@ -20,11 +20,12 @@ export function YourCatDailyClient({ SITE_URL }: Props) {
 
   return (
     <>
-      <article>
+      <article class="daily-cat">
         {data ? (
-          <picture>
+          <picture class="cat-picture">
             <h2 id="generated-counter">Gatitos generados: {data.id}</h2>
             <img id="catImage" src={data.url} alt="Gato del día" />
+
             <q id="quote">{data.quote}</q>
             <section class="socials">
               <a
@@ -74,7 +75,7 @@ export function YourCatDailyClient({ SITE_URL }: Props) {
             </section>
           </picture>
         ) : (
-          <h2>Cargando...</h2>
+          <h2 class="loading">Cargando...</h2>
         )}
       </article>
     </>

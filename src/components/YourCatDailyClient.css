@@ -7,14 +7,23 @@ h2#generated-counter {
   font-size: larger;
 }
 
-article {
+h2.loading {
+  margin: 0;
+  padding: 0;
+  padding-top: 10px;
+  font-family: var(--font-body);
+  font-weight: normal;
+  font-size: larger;
+}
+
+article.daily-cat {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-picture {
+picture.cat-picture {
   display: flex;
   justify-content: center;
   align-items: center;
