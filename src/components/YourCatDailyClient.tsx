@@ -13,9 +13,9 @@ export function YourCatDailyClient({ SITE_URL }: Props) {
   useEffect(() => {
     fetch('/api/daily-cat')
       .then(res => res.json())
-      .catch(() => "Something's wrong in fetch")
+      .catch(() => console.error("Something's wrong in fetch"))
       .then(setData)
-      .catch(() => "Something's wrong in state")
+      .catch(() => console.error("Something's wrong in state"))
   }, [])
 
   return (
