@@ -14,6 +14,7 @@ export async function getCatImageOfTheDay() {
   const today = getCurrentDate()
 
   try {
+    console.log(today)
     const connection = await db.getConnection()
     const [rows] = await connection.query(
       'SELECT * FROM daily_cat WHERE date = ?',
