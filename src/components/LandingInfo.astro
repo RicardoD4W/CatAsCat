@@ -4,9 +4,12 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 
 <script>
   import { annotate } from 'rough-notation'
-  const e = document.querySelector('#title') as HTMLElement
-  const annotation = annotate(e, { type: 'underline' })
-  annotation.show()
+
+  document.fonts.ready.then(() => {
+    const e = document.querySelector('#title') as HTMLElement
+    const annotation = annotate(e, { type: 'underline' })
+    annotation.show()
+  })
 </script>
 
 <section class='cat'>

@@ -19,14 +19,14 @@
 
 @font-face {
   font-family: 'Lora';
-  src: url('/fonts/lora/Lora-Regular.ttf') format('truetype');
+  src: url('/fonts/lora/Lora-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Dancing Script';
-  src: url('/fonts/dancing/DancingScript-Regular.ttf') format('truetype');
+  src: url('/fonts/dancing/DancingScript-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
