@@ -1,0 +1,32 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { Image } from 'astro:assets'
+import gatitoImg from '/public/imgs/404.avif'
+---
+
+<MainLayout customTitle='Sobre mí'>
+  <article>
+    <Image
+      alt='imagen de gatito escondido'
+      src={gatitoImg}
+    />
+  </article>
+</MainLayout>
+
+<style>
+  article {
+    height: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img,
+  astro-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>

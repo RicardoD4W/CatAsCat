@@ -39,7 +39,7 @@ const {
 />
 <link
   rel='manifest'
-  href='/favicon/site.webmanifest'
+  href='/manifest.webmanifest'
 />
 <meta
   name='generator'
@@ -103,23 +103,27 @@ const {
 
 <!-- Twitter -->
 <meta
-  property='twitter:card'
+  name='twitter:card'
   content='summary_large_image'
 />
 <meta
-  property='twitter:url'
-  content={Astro.url}
+  name='twitter:site'
+  content='@CatAsCat'
 />
 <meta
-  property='twitter:title'
+  name='twitter:creator'
+  content='@CatAsCat'
+/>
+<meta
+  name='twitter:title'
   content={title}
 />
 <meta
-  property='twitter:description'
+  name='twitter:description'
   content={description}
 />
 <meta
-  property='twitter:image'
+  name='twitter:image'
   content={new URL(image, Astro.url)}
 />
 
@@ -127,4 +131,10 @@ const {
 <meta
   name='google-site-verification'
   content='lrVRcKICPGo35WgHBUXIOUMGqW9vMZ-lZdhmD6zCYOw'
+/>
+
+<!-- KEYWORDS -->
+<meta
+  name='keywords'
+  content='cat, cats, catascat, diario, gato, gatos'
 />

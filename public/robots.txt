@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Host
+Host:https://catascat.netlify.app
+
+# Sitemaps
+Sitemap:https://catascat.netlify.app/sitemap-index.xml
