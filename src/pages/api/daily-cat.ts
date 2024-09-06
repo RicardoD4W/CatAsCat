@@ -7,19 +7,20 @@ const CAT_API_URL = 'https://api.thecatapi.com/v1/images/search'
 const CATFACT_API_URL = 'https://catfact.ninja/fact'
 const CAT_API_KEY = import.meta.env.CAT_API_KEY
 
-const getCurrentDate = () => {
+const getCurrentDateTime = () => {
   const today = new Date()
-  return today.toISOString().split('T')[0]
+  return today.toISOString().slice(0, 19).replace('T', ' ')
 }
 
 export async function getCatImageOfTheDay() {
-  const today = getCurrentDate()
+  const todayDate = getCurrentDateTime().split(' ')[0]
+  const todayDateTime = getCurrentDateTime()
 
   try {
     const connection = await db.getConnection()
     const [rows] = await connection.query(
-      'SELECT * FROM daily_cat WHERE date = ?',
-      [today]
+      'SELECT * FROM daily_cat WHERE DATE(date) = ?',
+      [todayDate]
     )
 
     if ((rows as any[]).length > 0) {
@@ -48,7 +49,7 @@ export async function getCatImageOfTheDay() {
 
       const [result] = await connection.query(
         'INSERT INTO daily_cat (date, url, quote) VALUES (?, ?, ?)',
-        [today, imageUrl, quote]
+        [todayDateTime, imageUrl, quote]
       )
 
       const [newRow] = await connection.query(
@@ -61,7 +62,7 @@ export async function getCatImageOfTheDay() {
       return newRow[0]
     }
   } catch (error) {
-    return new Response('Somethins wrong', { status: 500 })
+    return new Response('Something went wrong', { status: 500 })
   }
 }
 

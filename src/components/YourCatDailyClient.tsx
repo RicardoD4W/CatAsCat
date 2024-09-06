@@ -7,7 +7,7 @@ type Props = {
 
 export function YourCatDailyClient({ SITE_URL }: Props) {
   const [data, setData] = useState<
-    { url: string; quote: string; id: number } | undefined
+    { url: string; quote: string; id: number; date: string } | undefined
   >()
 
   useEffect(() => {
@@ -23,7 +23,18 @@ export function YourCatDailyClient({ SITE_URL }: Props) {
       <article class="daily-cat">
         {data ? (
           <picture class="cat-picture">
-            <h2 id="generated-counter">Gatitos generados: {data.id}</h2>
+            <hgroup>
+              <h2 id="generated-counter">Gatitos generados: {data.id} </h2>
+              <h3 id="date">
+                {new Date(data.date).toLocaleString('es-ES', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </h3>
+            </hgroup>
             <img id="catImage" src={data.url} alt="Gato del día" />
 
             <q id="quote">{data.quote}</q>
