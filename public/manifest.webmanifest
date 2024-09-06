@@ -4,12 +4,12 @@
   "description": "Descubre el mundo encantador de los gatos en CatAsCat. Encuentra fotos adorables e historias inspiradoras, comparte fotos de tu amigo felino ¡Únete a nuestra comunidad de amantes de los gatos y celebra a tu compañero con nosotros!",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "favicon/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "favicon/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
