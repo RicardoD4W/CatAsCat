@@ -127,6 +127,10 @@ const displayDate = `${dayName}, ${day} de ${monthName} de ${year}`
 
   .image-section {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .image-quote {
@@ -138,10 +142,6 @@ const displayDate = `${dayName}, ${day} de ${monthName} de ${year}`
   }
 
   .image-date {
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 1rem;
     font-weight: normal;
     font-family: var(--font-body);
@@ -150,6 +150,9 @@ const displayDate = `${dayName}, ${day} de ${monthName} de ${year}`
     padding: 5px 10px;
     border-radius: 5px;
     text-align: center;
+
+    overflow-wrap: break-word;
+    width: 150px;
   }
 
   .nav-arrow {
