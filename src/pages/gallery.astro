@@ -1,62 +1,65 @@
 ---
+import { getAllDailiesCats } from '@/data/getCatData'
 import MainLayout from '@/layouts/MainLayout.astro'
-import gallery from '@/data/gallery.json'
-import type { IGallery } from '@/types/gallery.d.ts'
+import type { IGallery } from '@/types/gallery'
 
-let galleryInfo: IGallery[] = []
+const catsArray = (await getAllDailiesCats()) as IGallery[]
 
-if (gallery.length < 5) {
-  const urls = [
-    'https://api.thecatapi.com/v1/images/search?limit=10',
-    'https://api.thecatapi.com/v1/images/search?limit=10',
-    'https://api.thecatapi.com/v1/images/search?limit=10',
-    'https://api.thecatapi.com/v1/images/search?limit=10',
-    'https://api.thecatapi.com/v1/images/search?limit=10',
-  ]
-  const fetchPromises = urls.map(url =>
-    fetch(url).then(response => response.json())
-  )
-  const results = await Promise.all(fetchPromises)
-  galleryInfo = [...results.flat()]
-} else {
-  galleryInfo = [...gallery]
+// Fecha de inicio de generacion de gatos
+let currentMonday = new Date('2024-09-02')
+
+const groupedCatsArray = []
+for (let i = 0; i < catsArray.length; i += 7) {
+  groupedCatsArray.push({
+    weekMonday: currentMonday.toLocaleDateString().split('T')[0],
+    cats: catsArray.slice(i, i + 7),
+  })
+  currentMonday = new Date(currentMonday.setDate(currentMonday.getDate() + 7))
 }
+
+groupedCatsArray.reverse()
 ---
 
 <MainLayout customTitle='Galería'>
   <article class='info'>
     <h3 class='contact-info'>
-      Esta galería se compone de las fotos de la comunidad
+      Esta galería es una recopilación de cada uno de los gatos diarios,
+      organizados en bloques semanales.
     </h3>
-    <p class='contact-info'>
-      Si quieres realizar algún aporte, visita el apartado de <a href='/contact'
-        >Contacto</a
-      >
-    </p>
   </article>
   <article class='container'>
     <section class='masonry-container'>
-      <div class='masonry'>
-        {
-          galleryInfo.map(image => (
-            <figcaption class='brick'>
-              <a
-                href={`/gallery/${image.id}`}
-                class='brick'
-              >
-                <img
-                  decoding='async'
-                  loading='lazy'
-                  src={image.url}
-                  alt={`Imagen de gatito ${image.id}`}
-                  width='300'
-                  height='200'
-                />
-              </a>
-            </figcaption>
+      {
+        typeof catsArray === 'string' ? (
+          <p>{catsArray}</p>
+        ) : (
+          groupedCatsArray.map(group => (
+            <div class='week-group'>
+              <h4 class='week-note'>Semana del {group.weekMonday}</h4>
+              <div class='masonry'>
+                {group.cats.map(({ id, date, url }) => (
+                  <figcaption class={`brick brick-${id}`}>
+                    <a
+                      href={`/gallery/${id}`}
+                      class='brick'
+                    >
+                      <img
+                        decoding='async'
+                        loading='lazy'
+                        src={url}
+                        alt={`Imagen de gatito del día ${date}`}
+                        title={`Imagen de gatito del día ${date.toLocaleDateString().split('T')[0]}`}
+                        width='300'
+                        height='200'
+                      />
+                    </a>
+                  </figcaption>
+                ))}
+              </div>
+            </div>
           ))
-        }
-      </div>
+        )
+      }
     </section>
   </article>
 </MainLayout>
@@ -72,7 +75,7 @@ if (gallery.length < 5) {
   }
 
   .contact-info {
-    padding: 0 20px 0 20px;
+    padding: 0 20px;
   }
 
   .container {
@@ -84,34 +87,53 @@ if (gallery.length < 5) {
     display: block;
     margin: 0 auto;
   }
+
+  .week-group {
+    margin-bottom: 40px;
+  }
+
+  .week-note {
+    font-family: var(--font-body);
+    font-weight: normal;
+    text-align: center;
+    padding-bottom: 10px;
+    font-size: 1.25rem;
+  }
+
   .masonry {
-    column-count: 2;
-    column-gap: 5px;
-    @media (min-width: 768px) {
-      column-count: 3;
-    }
-    @media (min-width: 992px) {
-      column-count: 4;
-    }
-    @media (min-width: 1199px) {
-      column-count: 5;
-    }
-    .brick {
-      box-sizing: border-box;
-      -webkit-column-break-inside: avoid;
-      page-break-inside: avoid;
-      break-inside: avoid;
-      counter-increment: brick-counter;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: scale 0.3s ease;
-      scale: 1;
-    }
-    img:hover {
-      scale: 0.9;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brick {
+    box-sizing: border-box;
+    position: relative;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  .brick img {
+    width: 238px;
+    height: 238px;
+    object-fit: cover;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+    transform: scale(1);
+    border-radius: 3px;
+  }
+
+  .brick img:hover {
+    transform: scale(1.1);
+  }
+
+  /* Efecto para las imágenes no seleccionadas */
+  .masonry:hover .brick:not(:hover) img {
+    transform: scale(0.9);
+    opacity: 0.6;
   }
 </style>

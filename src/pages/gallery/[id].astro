@@ -1,11 +1,18 @@
 ---
+import ArrowLeft from '@/components/icons/ArrowLeft.astro'
+import ArrowRight from '@/components/icons/ArrowRight.astro'
+import {
+  getAllDailiesCats,
+  getOneDailyCatById,
+  getLastCatId,
+} from '@/data/getCatData'
 import MainLayout from '@/layouts/MainLayout.astro'
-import type { IGallery } from '@/types/gallery.d.ts'
-import gallery from '@/data/gallery.json'
+import type { IGallery } from '@/types/gallery'
 
 export async function getStaticPaths() {
-  const paths = gallery.map((image: IGallery) => ({
-    params: { id: image.id },
+  const catsArray = (await getAllDailiesCats()) as IGallery[]
+  const paths = catsArray.map(dailyCat => ({
+    params: { id: dailyCat.id },
   }))
 
   return paths
@@ -13,176 +20,197 @@ export async function getStaticPaths() {
 
 const { id } = Astro.params
 
-const image = gallery.find((img: IGallery) => img.id === id)
+const lastCatId = (await getLastCatId()) as number
+const dailyCat = (await getOneDailyCatById(id)) as unknown as IGallery
 
-if (!image) {
-  throw new Error('Imagen no encontrada')
-}
+const daysOfWeek = [
+  'Domingo',
+  'Lunes',
+  'Martes',
+  'Miércoles',
+  'Jueves',
+  'Viernes',
+  'Sábado',
+]
+const monthsOfYear = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
+]
+
+const formattedDate = new Date(dailyCat.date)
+const dayName = daysOfWeek[formattedDate.getDay()]
+const day = formattedDate.getDate()
+const monthName = monthsOfYear[formattedDate.getMonth()]
+const year = formattedDate.getFullYear()
+
+const displayDate = `${dayName}, ${day} de ${monthName} de ${year}`
 ---
 
-<script>
-  import '@github/relative-time-element'
-</script>
-
 <MainLayout customTitle='Detalles de la Imagen'>
-  <article class='container'>
-    <section class='module'>
-      <!-- <p>Aquí módulo 1</p> -->
-    </section>
-    <div class='image-wrapper'>
-      <figure>
-        <img
-          src={image.url}
-          alt={`Imagen de gatito ${image.id}`}
-          class='large-image'
-          loading='lazy'
-        />
-        <button
-          class='back-button'
-          onclick='history.back()'
+  <article class='detail-container'>
+    {
+      dailyCat.id !== 1 && (
+        <a
+          href={`/gallery/${dailyCat.id - 1}`}
+          class='nav-arrow left-arrow'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='1em'
-            height='1em'
-            viewBox='0 0 24 24'
-          >
-            <title>Back navigation arrow</title>
-            <path
-              fill='currentColor'
-              d='m4 10l-.707.707L2.586 10l.707-.707zm17 8a1 1 0 1 1-2 0zM8.293 15.707l-5-5l1.414-1.414l5 5zm-5-6.414l5-5l1.414 1.414l-5 5zM4 9h10v2H4zm17 7v2h-2v-2zm-7-7a7 7 0 0 1 7 7h-2a5 5 0 0 0-5-5z'
-            ></path>
-          </svg>
-        </button>
-      </figure>
-    </div>
-    <article class='module info'>
-      <section>
-        <span>Fecha de publicación: </span>
-      </section>
-      <section>
-        <relative-time
-          datetime={image.publicationDate}
-          lang='es-ES'
-          format='datetime'
-          weekday='long'
-          day='numeric'
-          month='long'
-          year='numeric'
-          format-style='long'
-          precision='day'
-        >
-          1 de septiembre de 2023, 17:30
-        </relative-time>
-      </section>
+          <ArrowLeft />
+        </a>
+      )
+    }
 
-      <section>Usuario: <strong>{image.user}</strong></section>
-      <section>Nombre del gatito: <strong>{image.catName}</strong></section>
-      <section>Lugar: <strong>{image.location}</strong></section>
-      <section>
-        {image.comment ? `Comentario: ${image.comment}` : ``}
-      </section>
-    </article>
+    <section class='image-section'>
+      <h4 class='image-date'>{displayDate}</h4>
+
+      <figcaption class='image-quote'>
+        <img
+          src={dailyCat.url}
+          alt={`Imagen del día ${displayDate}`}
+          class='responsive-image'
+          width='600'
+          height='400'
+        />
+        <section class='quote-section'>
+          <p class='quote'>
+            " {dailyCat.quote} "
+          </p>
+        </section>
+      </figcaption>
+    </section>
+    {
+      dailyCat.id !== lastCatId && (
+        <a
+          href={`/gallery/${dailyCat.id + 1}`}
+          class='nav-arrow right-arrow'
+        >
+          <ArrowRight />
+        </a>
+      )
+    }
   </article>
 </MainLayout>
 
 <style>
-  .container {
+  .detail-container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 20px;
-  }
-
-  .large-image {
-    width: 700px;
-    height: 600px;
-    object-fit: contain;
-    background-color: black;
-  }
-
-  relative-time {
-    font-family: var(--font-body);
-    font-weight: bold;
-  }
-
-  figure {
     position: relative;
   }
 
-  .info {
+  .image-section {
+    position: relative;
+  }
+
+  .image-quote {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 3px;
-
-    font-family: var(--font-body);
+    gap: 20px;
   }
 
-  .image-wrapper {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
-  .back-button {
+  .image-date {
     position: absolute;
-    top: -20px;
-    left: -20px;
-    background-color: var(--color-bg-secondary);
-    color: var(--color-bg-main);
-    border: none;
-    border-radius: 50%;
-    padding: 8px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
-  }
-
-  .back-button:hover {
-    background-color: var(--color-bg-main);
-    color: var(--color-bg-secondary);
-  }
-
-  .module {
-    width: 100%;
-    max-width: 600px;
-    padding: 10px;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
     text-align: center;
   }
 
-  @media (max-width: 1300px) {
-    .container {
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .info {
-      align-items: center;
-    }
+  .nav-arrow {
+    z-index: 1;
+    margin: 20px;
+    color: #333;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+  }
+
+  .right-arrow {
+    right: 0;
+  }
+
+  .left-arrow {
+    left: 0;
+  }
+
+  .nav-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+
+  .responsive-image {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    max-height: 600px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .quote-section {
+    font-family: var(--font-heading);
+    font-size: x-large;
+    text-align: center;
+    overflow-wrap: break-word;
+    width: 700px;
   }
 
   @media (max-width: 780px) {
-    .large-image {
-      width: 400px;
-      height: 300px;
-      object-fit: contain;
-      background-color: black;
+    .responsive-image {
+      width: 500px;
+      height: auto;
+    }
+    .quote-section {
+      width: 500px;
+      font-size: x-large;
+    }
+
+    .nav-arrow {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      top: 0;
+    }
+    .nav-arrow:hover {
+      color: rgba(0, 0, 0, 0.5);
+      background-color: white;
     }
   }
 
   @media (max-width: 525px) {
-    .large-image {
-      width: 200px;
+    .responsive-image {
+      width: 250px;
       height: auto;
-      object-fit: contain;
-      background-color: black;
+    }
+    .quote-section {
+      font-size: x-large;
+      width: 300px;
+    }
+    .image-date {
+      top: -120px;
     }
   }
 </style>

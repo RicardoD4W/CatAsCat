@@ -1,6 +1,6 @@
 export interface IGallery {
-  id: string
-  url: string
-  width: number
-  height: number
+  id: number
+  date: Date
+  url: strin
+  quote: string
 }
