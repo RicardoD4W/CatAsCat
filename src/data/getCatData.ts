@@ -9,6 +9,7 @@ export async function getAllDailiesCats() {
 
     return rows
   } catch (error) {
+    console.log('getAllDailiesCats: ', error)
     return 'Something went wrong'
   }
 }
@@ -23,6 +24,7 @@ export async function getOneDailyCatById(id: number) {
     // @ts-ignore
     return rows[0]
   } catch (error) {
+    console.log('getOneDailyCatById: ', error)
     return 'Something went wrong'
   }
 }
@@ -36,6 +38,7 @@ export async function getLastCatId() {
     // @ts-ignore
     return rows[0].id
   } catch (error) {
+    console.log('getLastCatId: ', error)
     return 'Something went wrong'
   }
 }
