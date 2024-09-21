@@ -8,7 +8,7 @@ export async function getAllDailiesCats() {
     return rows
   } catch (error) {
     console.log('getAllDailiesCats: ', error)
-    return 'Something went wrong'
+    throw new Error('Something went wrong')
   } finally {
     connection.release()
   }
@@ -25,7 +25,7 @@ export async function getOneDailyCatById(id: number) {
     return rows[0]
   } catch (error) {
     console.log('getOneDailyCatById: ', error)
-    return 'Something went wrong'
+    throw new Error('Something went wrong')
   } finally {
     connection.release()
   }
@@ -41,7 +41,7 @@ export async function getLastCatId() {
     return rows[0]?.id
   } catch (error) {
     console.log('getLastCatId: ', error)
-    return 'Something went wrong'
+    throw new Error('Something went wrong')
   } finally {
     connection.release()
   }

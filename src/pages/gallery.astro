@@ -5,7 +5,13 @@ import { getAllDailiesCats } from '@/data/getCatData'
 import MainLayout from '@/layouts/MainLayout.astro'
 import type { IGallery } from '@/types/gallery'
 
-const catsArray = (await getAllDailiesCats()) as IGallery[]
+let catsArray: IGallery[]
+
+try {
+  catsArray = (await getAllDailiesCats()) as IGallery[]
+} catch (error) {
+  return Astro.redirect('/500')
+}
 
 let firstData = catsArray[0]?.date ?? '2024-09-02T06:12:28.000Z'
 let firstFormattedData =

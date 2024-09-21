@@ -10,8 +10,20 @@ import type { IGallery } from '@/types/gallery'
 
 const { id } = Astro.params
 
-const lastCatId = (await getLastCatId()) as number
-const dailyCat = (await getOneDailyCatById(+id!)) as IGallery
+let dailyCat: IGallery
+let lastCatId: number
+
+try {
+  dailyCat = (await getOneDailyCatById(+id!)) as IGallery
+} catch (error) {
+  return Astro.redirect('/400')
+}
+
+try {
+  lastCatId = (await getLastCatId()) as number
+} catch (error) {
+  return Astro.redirect('/500')
+}
 
 const daysOfWeek = [
   'Domingo',
