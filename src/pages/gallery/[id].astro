@@ -16,7 +16,7 @@ let lastCatId: number
 try {
   dailyCat = (await getOneDailyCatById(+id!)) as IGallery
 } catch (error) {
-  return Astro.redirect('/400')
+  return Astro.redirect('/404')
 }
 
 try {
