@@ -1,4 +1,3 @@
-export const prerender = false
 import { db } from '@/data/db'
 
 const connection = await db.getConnection()

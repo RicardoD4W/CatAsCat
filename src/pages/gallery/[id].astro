@@ -1,28 +1,17 @@
 ---
+export const prerender = false
+
 import ArrowLeft from '@/components/icons/ArrowLeft.astro'
 import ArrowRight from '@/components/icons/ArrowRight.astro'
 
-import {
-  getAllDailiesCats,
-  getOneDailyCatById,
-  getLastCatId,
-} from '@/data/getCatData'
+import { getOneDailyCatById, getLastCatId } from '@/data/getCatData'
 import MainLayout from '@/layouts/MainLayout.astro'
 import type { IGallery } from '@/types/gallery'
-
-export async function getStaticPaths() {
-  const catsArray = (await getAllDailiesCats()) as IGallery[]
-  const paths = catsArray.map(dailyCat => ({
-    params: { id: dailyCat.id },
-  }))
-
-  return paths
-}
 
 const { id } = Astro.params
 
 const lastCatId = (await getLastCatId()) as number
-const dailyCat = (await getOneDailyCatById(id)) as unknown as IGallery
+const dailyCat = (await getOneDailyCatById(+id!)) as IGallery
 
 const daysOfWeek = [
   'Domingo',

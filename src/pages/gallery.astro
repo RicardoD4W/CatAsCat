@@ -1,17 +1,22 @@
 ---
+export const prerender = false
+
 import { getAllDailiesCats } from '@/data/getCatData'
 import MainLayout from '@/layouts/MainLayout.astro'
 import type { IGallery } from '@/types/gallery'
 
 const catsArray = (await getAllDailiesCats()) as IGallery[]
 
-// Fecha de inicio de generacion de gatos
-let currentMonday = new Date('2024-09-02')
+let firstData = catsArray[0]?.date
+if (!firstData) return
+let firstFormattedData = new Date(firstData).toISOString().split('T')[0]
+if (!firstFormattedData) return
+let currentMonday = new Date(firstFormattedData)
 
 const groupedCatsArray = []
 for (let i = 0; i < catsArray.length; i += 7) {
   groupedCatsArray.push({
-    weekMonday: currentMonday.toLocaleDateString().split('T')[0],
+    weekMonday: currentMonday.toLocaleDateString('es-ES').split('T')[0],
     cats: catsArray.slice(i, i + 7),
   })
   currentMonday = new Date(currentMonday.setDate(currentMonday.getDate() + 7))
@@ -48,7 +53,7 @@ groupedCatsArray.reverse()
                         loading='lazy'
                         src={url}
                         alt={`Imagen de gatito del día ${date}`}
-                        title={`Imagen de gatito del día ${date.toLocaleDateString().split('T')[0]}`}
+                        title={`Imagen de gatito del día ${date.toLocaleDateString('es-ES').split('T')[0]}`}
                         width='300'
                         height='200'
                       />
