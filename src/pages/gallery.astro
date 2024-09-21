@@ -7,10 +7,9 @@ import type { IGallery } from '@/types/gallery'
 
 const catsArray = (await getAllDailiesCats()) as IGallery[]
 
-let firstData = catsArray[0]?.date
-if (!firstData) return
-let firstFormattedData = new Date(firstData).toISOString().split('T')[0]
-if (!firstFormattedData) return
+let firstData = catsArray[0]?.date ?? '2024-09-02T06:12:28.000Z'
+let firstFormattedData =
+  new Date(firstData).toISOString().split('T')[0] ?? '2024-09-02'
 let currentMonday = new Date(firstFormattedData)
 
 const groupedCatsArray = []
