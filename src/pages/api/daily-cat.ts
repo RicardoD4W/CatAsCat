@@ -35,7 +35,7 @@ export async function getCatImageOfTheDay(clientDate: string) {
 
       if (firstDate! > secondDate!) {
         return new Response(null, {
-          status: 308,
+          status: 307,
           headers: { Location: '/your-cat-daily' },
         })
       }
