@@ -1,6 +1,6 @@
 export interface IGallery {
   id: number
   date: Date
-  url: strin
+  url: string
   quote: string
 }
