@@ -28,7 +28,7 @@ const isoDate = date.toISOString()
 let data = await getCatImageOfTheDay(isoDate)
 
 if (data.status === 307) {
-  return Astro.redirect('/your-cat-daily')
+  return Astro.redirect(data.headers.Location)
 }
 ---
 
