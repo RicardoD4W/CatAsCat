@@ -29,11 +29,13 @@ export async function getCatImageOfTheDay(clientDate: string) {
       // @ts-ignore
       return rows[0]
     } else {
-      let firstDate = todayDate && todayDate.split('-').at(-1)
-      let aux = new Date().toISOString()
-      let secondDate = getCurrentDateTime(aux).split(' ')[0]!.split('-').at(-1)
+      let serverDate = getCurrentDateTime(new Date().toISOString()).split(
+        ' '
+      )[0]!
 
-      if (firstDate! > secondDate!) {
+      // Como si existe lo hemos devuelto antes, comprobamos que no nos pongan una fecha válida en foprmato pero no en sentido
+      // No tiene sentido generar una imagen con una fecha distinta al servidor
+      if (new Date(todayDate!) !== new Date(serverDate)) {
         throw new Error('Error al obtener la foto o la frase del gato')
       }
 
