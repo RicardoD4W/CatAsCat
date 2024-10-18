@@ -34,10 +34,7 @@ export async function getCatImageOfTheDay(clientDate: string) {
       let secondDate = getCurrentDateTime(aux).split(' ')[0]!.split('-').at(-1)
 
       if (firstDate! > secondDate!) {
-        return new Response(null, {
-          status: 302,
-          headers: { Location: '/your-cat-daily' },
-        })
+        throw new Error('Error al obtener la foto o la frase del gato')
       }
 
       // Si no existe, crear una nueva entrada
