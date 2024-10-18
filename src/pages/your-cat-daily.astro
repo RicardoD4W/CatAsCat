@@ -3,7 +3,7 @@ export const prerender = false
 
 import MainLayout from '@/layouts/MainLayout.astro'
 import { SITE_URL } from '@/consts'
-import { getCatImageOfTheDay } from './api/daily-cat'
+import { getCatImageOfTheDay } from '@/data/daily-cat'
 
 const { url } = Astro.request
 const searchParams = new URL(url).searchParams
@@ -25,12 +25,9 @@ if (paramsDate) {
 
 const isoDate = date.toISOString()
 
-let data
-try {
-  data = await getCatImageOfTheDay(isoDate)
-} catch (error) {
-  return Astro.redirect('/404')
-}
+let data = await getCatImageOfTheDay(isoDate)
+
+if (data.status) return Astro.redirect('/404')
 ---
 
 <MainLayout customTitle='Tu gato diario'>
