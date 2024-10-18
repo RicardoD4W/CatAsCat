@@ -5,7 +5,29 @@ import MainLayout from '@/layouts/MainLayout.astro'
 import { SITE_URL } from '@/consts'
 import { getCatImageOfTheDay } from './api/daily-cat'
 
-let data = await getCatImageOfTheDay()
+const { url } = Astro.request
+const searchParams = new URL(url).searchParams
+const paramsDate = searchParams.get('date')
+
+let date
+
+if (paramsDate) {
+  const parsedDate = Date.parse(paramsDate)
+  if (!isNaN(parsedDate)) {
+    date = new Date(parsedDate)
+  } else {
+    console.error(`Invalid date provided: ${paramsDate}`)
+    date = new Date()
+  }
+} else {
+  date = new Date()
+}
+
+const isoDate = date.toISOString()
+
+let data = await getCatImageOfTheDay(isoDate)
+
+if (data.status === 308) return Astro.redirect('/your-cat-daily', 308)
 ---
 
 <MainLayout customTitle='Tu gato diario'>

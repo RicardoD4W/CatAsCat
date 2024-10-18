@@ -7,14 +7,14 @@ const CAT_API_URL = 'https://api.thecatapi.com/v1/images/search'
 const CATFACT_API_URL = 'https://catfact.ninja/fact'
 const CAT_API_KEY = import.meta.env.CAT_API_KEY
 
-const getCurrentDateTime = () => {
-  const today = new Date()
-  return today.toISOString().slice(0, 19).replace('T', ' ')
+const getCurrentDateTime = (clientDate: string) => {
+  const today = clientDate
+  return today.slice(0, 19).replace('T', ' ')
 }
 
-export async function getCatImageOfTheDay() {
-  const todayDate = getCurrentDateTime().split(' ')[0]
-  const todayDateTime = getCurrentDateTime()
+export async function getCatImageOfTheDay(clientDate: string) {
+  const todayDate = getCurrentDateTime(clientDate).split(' ')[0]
+  const todayDateTime = getCurrentDateTime(clientDate)
 
   try {
     const connection = await db.getConnection()
@@ -29,6 +29,17 @@ export async function getCatImageOfTheDay() {
       // @ts-ignore
       return rows[0]
     } else {
+      let firstDate = todayDate && todayDate.split('-').at(-1)
+      let aux = new Date().toISOString()
+      let secondDate = getCurrentDateTime(aux).split(' ')[0]!.split('-').at(-1)
+
+      if (firstDate! > secondDate!) {
+        return new Response(null, {
+          status: 308,
+          headers: { Location: '/your-cat-daily' },
+        })
+      }
+
       // Si no existe, crear una nueva entrada
       const response = await fetch(`${CAT_API_URL}?limit=1`, {
         headers: {
@@ -63,19 +74,5 @@ export async function getCatImageOfTheDay() {
     }
   } catch (error) {
     return new Response('Something went wrong', { status: 500 })
-  }
-}
-
-export async function GET() {
-  try {
-    const data = await getCatImageOfTheDay()
-    return new Response(JSON.stringify(data), {
-      headers: { 'Content-Type': 'application/json' },
-    })
-  } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    })
   }
 }

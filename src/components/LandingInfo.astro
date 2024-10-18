@@ -5,6 +5,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 <script>
   import { annotate } from 'rough-notation'
 
+  const dailyButton = document.querySelector(
+    'a#your-cat-daily'
+  ) as HTMLAnchorElement
+  dailyButton.href = `/your-cat-daily?date=${new Date().toISOString()}`
+
   document.fonts.ready.then(() => {
     const e = document.querySelector('#title') as HTMLElement
     const annotation = annotate(e, { type: 'underline' })
@@ -26,6 +31,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
     <section class='actions'>
       <a
         href='/your-cat-daily'
+        id='your-cat-daily'
         class='call-to-action'
         >Obtén el gatito del día</a
       >
