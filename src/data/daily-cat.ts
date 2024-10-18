@@ -35,7 +35,7 @@ export async function getCatImageOfTheDay(clientDate: string) {
 
       // Como si existe lo hemos devuelto antes, comprobamos que no nos pongan una fecha válida en foprmato pero no en sentido
       // No tiene sentido generar una imagen con una fecha distinta al servidor
-      if (new Date(todayDate!) !== new Date(serverDate)) {
+      if (todayDate !== serverDate) {
         throw new Error('Error al obtener la foto o la frase del gato')
       }
 
@@ -47,6 +47,7 @@ export async function getCatImageOfTheDay(clientDate: string) {
       })
       const response2 = await fetch(`${CATFACT_API_URL}?max_length=120`)
       if (!response.ok || !response2.ok) {
+        console.log('error en la api')
         throw new Error('Error al obtener la foto o la frase del gato')
       }
 
@@ -72,6 +73,7 @@ export async function getCatImageOfTheDay(clientDate: string) {
       return newRow[0]
     }
   } catch (error) {
+    console.log(error, '500')
     return new Response('Something went wrong', { status: 500 })
   }
 }
