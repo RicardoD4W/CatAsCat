@@ -29,7 +29,7 @@ let data
 try {
   data = await getCatImageOfTheDay(isoDate)
 } catch (error) {
-  return Astro.redirect('/your-cat-daily')
+  return Astro.redirect('/404')
 }
 ---
 
