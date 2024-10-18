@@ -34,10 +34,9 @@ export async function getCatImageOfTheDay(clientDate: string) {
       let secondDate = getCurrentDateTime(aux).split(' ')[0]!.split('-').at(-1)
 
       if (firstDate! > secondDate!) {
-        return {
-          status: 307,
-          headers: { Location: '/your-cat-daily' },
-        }
+        return new Response(null, {
+          status: 200,
+        })
       }
 
       // Si no existe, crear una nueva entrada
