@@ -20,7 +20,7 @@ export default defineConfig({
   },
   integrations: [mdx(), sitemap(), preact()],
   adapter: netlify(),
-  output: 'hybrid',
+  output: 'server',
   site: seoConfig.baseURL,
   vite: {
     build: {
