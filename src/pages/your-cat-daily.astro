@@ -27,7 +27,7 @@ const isoDate = date.toISOString()
 
 let data = await getCatImageOfTheDay(isoDate)
 
-if (!data) return Astro.redirect('/404')
+if (data.status) return Astro.redirect('/404')
 ---
 
 <MainLayout customTitle='Tu gato diario'>
